@@ -57,6 +57,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
 
   final double selectorButtonOnErrorPadding;
   final Widget Function(Country)? child;
+  final BoxDecoration? inputBoxDecoration;
 
   /// Ignored if [setSelectorButtonAsPrefixIcon = true]
   final double spaceBetweenSelectorAndTextField;
@@ -96,6 +97,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
       this.onFieldSubmitted,
       this.validator,
       this.onSaved,
+      this.inputBoxDecoration,
       this.fieldKey,
       this.textFieldController,
       this.child,
@@ -394,6 +396,7 @@ class _InputWidgetView
     final dialCode = state.country?.dialCode ?? '';
 
     return Container(
+      decoration: widget.inputBoxDecoration,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

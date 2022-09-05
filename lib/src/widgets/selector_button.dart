@@ -38,12 +38,13 @@ class SelectorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(child);
     return selectorConfig.selectorType == PhoneInputSelectorType.DROPDOWN
         ? countries.isNotEmpty && countries.length > 1
             ? DropdownButtonHideUnderline(
                 child: DropdownButton<Country>(
                   key: Key(TestHelper.DropdownButtonKeyValue),
-                  hint: child != null
+                  hint: (child != null)
                       ? child!(country!)
                       : Item(
                           country: country,
@@ -58,14 +59,16 @@ class SelectorButton extends StatelessWidget {
                   onChanged: isEnabled ? onCountryChanged : null,
                 ),
               )
-            : Item(
-                country: country,
-                showFlag: selectorConfig.showFlags,
-                useEmoji: selectorConfig.useEmoji,
-                leadingPadding: selectorConfig.leadingPadding,
-                trailingSpace: selectorConfig.trailingSpace,
-                textStyle: selectorTextStyle,
-              )
+            : child != null
+                ? child!(country!)
+                : Item(
+                    country: country,
+                    showFlag: selectorConfig.showFlags,
+                    useEmoji: selectorConfig.useEmoji,
+                    leadingPadding: selectorConfig.leadingPadding,
+                    trailingSpace: selectorConfig.trailingSpace,
+                    textStyle: selectorTextStyle,
+                  )
         : MaterialButton(
             key: Key(TestHelper.DropdownButtonKeyValue),
             padding: EdgeInsets.zero,
@@ -89,7 +92,9 @@ class SelectorButton extends StatelessWidget {
                 : null,
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Item(
+              child: child != null
+                  ? child!(country!)
+                  : Item(
                 country: country,
                 showFlag: selectorConfig.showFlags,
                 useEmoji: selectorConfig.useEmoji,
@@ -107,15 +112,17 @@ class SelectorButton extends StatelessWidget {
     return countries.map((country) {
       return DropdownMenuItem<Country>(
         value: country,
-        child: Item(
-          key: Key(TestHelper.countryItemKeyValue(country.alpha2Code)),
-          country: country,
-          showFlag: selectorConfig.showFlags,
-          useEmoji: selectorConfig.useEmoji,
-          textStyle: selectorTextStyle,
-          withCountryNames: false,
-          trailingSpace: selectorConfig.trailingSpace,
-        ),
+        child: child != null
+            ? child!(country)
+            : Item(
+                key: Key(TestHelper.countryItemKeyValue(country.alpha2Code)),
+                country: country,
+                showFlag: selectorConfig.showFlags,
+                useEmoji: selectorConfig.useEmoji,
+                textStyle: selectorTextStyle,
+                withCountryNames: false,
+                trailingSpace: selectorConfig.trailingSpace,
+              ),
       );
     }).toList();
   }

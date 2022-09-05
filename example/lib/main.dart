@@ -60,6 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
               autoValidateMode: AutovalidateMode.disabled,
               selectorTextStyle: TextStyle(color: Colors.black),
               initialValue: number,
+              child: (Country country) => Text('lll'),
+              inputBoxDecoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                color: Colors.white
+              ),
               textFieldController: controller,
               formatInput: false,
               keyboardType:
