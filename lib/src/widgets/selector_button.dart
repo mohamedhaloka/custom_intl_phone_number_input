@@ -17,6 +17,7 @@ class SelectorButton extends StatelessWidget {
   final String? locale;
   final bool isEnabled;
   final bool isScrollControlled;
+  final Widget Function(Country)? child;
 
   final ValueChanged<Country?> onCountryChanged;
 
@@ -26,6 +27,7 @@ class SelectorButton extends StatelessWidget {
     required this.country,
     required this.selectorConfig,
     required this.selectorTextStyle,
+    required this.child,
     required this.searchBoxDecoration,
     required this.autoFocusSearchField,
     required this.locale,
@@ -41,14 +43,16 @@ class SelectorButton extends StatelessWidget {
             ? DropdownButtonHideUnderline(
                 child: DropdownButton<Country>(
                   key: Key(TestHelper.DropdownButtonKeyValue),
-                  hint: Item(
-                    country: country,
-                    showFlag: selectorConfig.showFlags,
-                    useEmoji: selectorConfig.useEmoji,
-                    leadingPadding: selectorConfig.leadingPadding,
-                    trailingSpace: selectorConfig.trailingSpace,
-                    textStyle: selectorTextStyle,
-                  ),
+                  hint: child != null
+                      ? child!(country!)
+                      : Item(
+                          country: country,
+                          showFlag: selectorConfig.showFlags,
+                          useEmoji: selectorConfig.useEmoji,
+                          leadingPadding: selectorConfig.leadingPadding,
+                          trailingSpace: selectorConfig.trailingSpace,
+                          textStyle: selectorTextStyle,
+                        ),
                   value: country,
                   items: mapCountryToDropdownItem(countries),
                   onChanged: isEnabled ? onCountryChanged : null,
@@ -159,7 +163,7 @@ class SelectorButton extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             child: DraggableScrollableSheet(
               builder: (BuildContext context, ScrollController controller) {
                 return Directionality(

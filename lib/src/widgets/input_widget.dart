@@ -56,6 +56,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   final String? errorMessage;
 
   final double selectorButtonOnErrorPadding;
+  final Widget Function(Country)? child;
 
   /// Ignored if [setSelectorButtonAsPrefixIcon = true]
   final double spaceBetweenSelectorAndTextField;
@@ -97,6 +98,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
       this.onSaved,
       this.fieldKey,
       this.textFieldController,
+      this.child,
       this.keyboardAction,
       this.keyboardType = TextInputType.phone,
       this.initialValue,
@@ -293,6 +295,7 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
     if (widget.selectorConfig.setSelectorButtonAsPrefixIcon) {
       return value.copyWith(
           prefixIcon: SelectorButton(
+        child: widget.child,
         country: country,
         countries: countries,
         onCountryChanged: onCountryChanged,
@@ -320,7 +323,7 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
   String? validator(String? value) {
     bool isValid =
         this.isNotValid && (value!.isNotEmpty || widget.ignoreBlank == false);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       if (isValid && widget.errorMessage != null) {
         setState(() {
           this.selectorButtonBottomPadding =
@@ -400,6 +403,7 @@ class _InputWidgetView
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 SelectorButton(
+                  child: widget.child,
                   country: state.country,
                   countries: state.countries,
                   onCountryChanged: state.onCountryChanged,
